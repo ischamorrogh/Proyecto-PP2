@@ -72,3 +72,6 @@ CREATE TABLE turnos (
   FOREIGN KEY (servicio_id) REFERENCES servicios(id)
 );
 
+
+
+ALTER TABLE usuarios CHANGE `contraseña` `contrasena` VARCHAR(255) NOT NULL;

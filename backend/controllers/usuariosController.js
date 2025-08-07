@@ -4,9 +4,11 @@ const jwt = require('jsonwebtoken');
 
 // Registro de usuario
 exports.registro = async (req, res) => {
-  const { nombre, apellido, email, contraseña } = req.body;
+  const { nombre, apellido, email, contrasena } = req.body;
 
-  if (!nombre || !apellido || !email || !contraseña) {
+  console.log('BODY recibido en registro:', req.body);
+
+  if (!nombre || !apellido || !email || !contrasena) {
     return res.status(400).json({ mensaje: 'Todos los campos son obligatorios' });
   }
 
@@ -16,8 +18,8 @@ exports.registro = async (req, res) => {
       return res.status(400).json({ mensaje: 'El email ya está registrado' });
     }
 
-    const hash = await bcrypt.hash(contraseña, 10);
-    await db.query('INSERT INTO usuarios (nombre, apellido, email, contraseña) VALUES (?, ?, ?, ?)', [
+    const hash = await bcrypt.hash(contrasena, 10);
+    await db.query('INSERT INTO usuarios (nombre, apellido, email, contrasena) VALUES (?, ?, ?, ?)', [
       nombre,
       apellido,
       email,
@@ -33,9 +35,9 @@ exports.registro = async (req, res) => {
 
 // Login
 exports.login = async (req, res) => {
-  const { email, contraseña } = req.body;
+  const { email, contrasena } = req.body;
 
-  if (!email || !contraseña) {
+  if (!email || !contrasena) {
     return res.status(400).json({ mensaje: 'Email y contraseña son requeridos' });
   }
 
@@ -47,7 +49,7 @@ exports.login = async (req, res) => {
     }
 
     const usuario = usuarios[0];
-    const validPassword = await bcrypt.compare(contraseña, usuario.contraseña);
+    const validPassword = await bcrypt.compare(contrasena, usuario.contrasena);
 
     if (!validPassword) {
       return res.status(401).json({ mensaje: 'Credenciales inválidas' });

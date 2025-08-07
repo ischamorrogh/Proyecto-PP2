@@ -74,7 +74,7 @@ export class LoginRegister {
       nombre: this.nombre,
       apellido: this.apellido,
       email: this.email,
-      contraseña: this.password
+      contrasena: this.password
     };
 
     this.authService.registro(data).subscribe({
